@@ -1,0 +1,12 @@
+{
+    "canisters": {
+        "accounts": {
+            "type": "custom",
+            "build": "npx azle accounts",
+            "root": "src",
+            "ts": "src/main.ts",
+            "candid": "src/accounts.did",
+            "wasm": "target/wasm32-unknown-unknown/release/accounts.wasm"
+        }
+    }
+}

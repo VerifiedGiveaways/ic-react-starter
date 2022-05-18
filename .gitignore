@@ -10,8 +10,12 @@
 # dfx temporary files
 **/.dfx/
 
+# typescript
+**/node_modules
+backend-ts/**/target
+**/*.did
+
 # frontend code
-frontend/portal/node_modules/
 frontend/portal/dist/
 frontend/portal/.env.local
 frontend/portal/src/services/actors/**

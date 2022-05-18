@@ -1,0 +1,12 @@
+{
+    "canisters": {
+        "content": {
+            "type": "custom",
+            "build": "npx azle content",
+            "root": "src",
+            "ts": "src/main.ts",
+            "candid": "src/content.did",
+            "wasm": "target/wasm32-unknown-unknown/release/content.wasm"
+        }
+    }
+}
