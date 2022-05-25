@@ -9,10 +9,12 @@
     "Canister"
   ],
   "scripts": {
-    "copy-account-actor": "cp -r ../../backend-mo/accounts/.dfx/local/canisters/accounts ../../frontend/portal/src/services/actors",
-    "copy-actors": "npm run copy-account-actor",
-    "start": "npm run copy-actors && webpack serve --mode development --env development",
-    "build": "npm run copy-actors && webpack"
+    "copy-actors-mo": "LANGUAGE=mo bash ../../_scripts/actors.sh",
+    "copy-actors-ts": "LANGUAGE=ts bash ../../_scripts/actors.sh",
+    "start": "npm run copy-actors-mo && LANGUAGE=mo webpack serve --mode development --env development",
+    "build": "npm run copy-actors-mo && LANGUAGE=mo webpack",
+    "start-ts": "npm run copy-actors-ts && LANGUAGE=ts webpack serve --mode development --env development",
+    "build-ts": "npm run copy-actors-ts && LANGUAGE=ts webpack"
   },
   "dependencies": {
     "@dfinity/agent": "^0.11.1",

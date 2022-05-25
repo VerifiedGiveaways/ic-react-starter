@@ -5,8 +5,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
-const backendFolder = "Backend-mo";
-
 function getCanisterEnvVariables(projectPath) {
   let localCanisters, prodCanisters;
 
@@ -29,7 +27,7 @@ function getCanisterEnvVariables(projectPath) {
   const network =
     process.env.DFX_NETWORK ||
     (process.env.NODE_ENV === "production" ? "ic" : "local");
-
+  
   const canisterConfig = network === "local" ? localCanisters : prodCanisters;
 
   return Object.entries(canisterConfig).reduce((prev, current) => {
@@ -43,6 +41,9 @@ function getCanisterEnvVariables(projectPath) {
 }
 
 function initCanisterEnv() {
+  const backendFolder = "backend-" + process.env.LANGUAGE;
+  console.log('backendFolder: ' + backendFolder);
+
   let projectPaths = [
     [""], //current project
     ["..", "..", "frontend", "public"],
