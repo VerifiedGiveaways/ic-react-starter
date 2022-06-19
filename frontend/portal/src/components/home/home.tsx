@@ -1,14 +1,37 @@
-import React, { useState } from "react";
-import { getAccountActor } from "../../services/actors/actorService";
+import React, { useState, useEffect } from "react";
+import { useAuthStore } from "../../store/authStore";
 
 const Home = () => {
-  const [name, setName] = useState("");
-  const [greeeting, setGreeting] = useState("");
+  // example for getting principal (not intended for production use)
+  const [principalId, setPrincipalId] = useState("");
 
-  const getGreeting = async () => {
-    const actor = await getAccountActor();
-    const value = await actor.greet(name);
-    setGreeting(value);
+  const { loggedIn, getIdentity, login, logout } = useAuthStore((state) => ({
+    loggedIn: state.loggedIn,
+    getIdentity: state.getIdentity,
+    login: state.login,
+    logout: state.logout,
+  }));
+
+  useEffect(() => {
+    const handleLoggedIn = async () => {
+      const identity = await getIdentity();
+      if (identity) {
+        setPrincipalId(identity.getPrincipal().toString());
+      }
+    };
+
+    if (loggedIn) {
+      handleLoggedIn();
+    }
+  }, [loggedIn]);
+
+  const onLogin = async () => {
+    login();
+  };
+
+  const onLogout = async () => {
+    logout();
+    setPrincipalId("");
   };
 
   return (
@@ -20,23 +43,22 @@ const Home = () => {
         <div>
           <h1 style={{ margin: "0" }}>Verified Giveaways</h1>
         </div>
-        <div></div>
       </nav>
       <header></header>
       <main>
         <form action="#">
-          <label htmlFor="name">Enter your name: &nbsp;</label>
-          <input
-            alt="Name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button type="submit" onClick={getGreeting}>
-            Click Me!
-          </button>
+          {loggedIn ? (
+            <button type="submit" onClick={onLogout}>
+              Logout
+            </button>
+          ) : (
+            <button type="submit" onClick={onLogin}>
+              Login with Internet Identity
+            </button>
+          )}
+          <div>Principal: {principalId}</div>
+          <div>LoggedIn: {loggedIn ? "true" : "false"}</div>
         </form>
-        <section id="greeting">{greeeting}</section>
       </main>
     </>
   );
